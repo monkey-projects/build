@@ -39,12 +39,13 @@
 
 (defn pom
   "Generates pom.xml file, with the given version"
-  [{:keys [version lib]}]
+  [{:keys [version lib scm]}]
   (let [basis (b/create-basis)
         opts {:basis basis
               :version version
               :lib (symbol lib)
-              :target target}
+              :target target
+              :scm scm}
         pom "pom.xml"]
     (println "Writing" pom)
     (b/write-pom opts)

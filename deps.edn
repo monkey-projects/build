@@ -11,7 +11,8 @@
   {:exec-fn monkey.build/jar
    :exec-args {:jar "target/monkey-build.jar"
                :version "0.1.0-SNAPSHOT"
-               :lib "com.monkeyprojects/build"}}
+               :lib "com.monkeyprojects/build"
+               :scm {:url "https://github.com/monkey-projects/build"}}}
 
   :install
   {:exec-fn monkey.build/jar+install}
