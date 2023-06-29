@@ -1,4 +1,7 @@
-{:deps {io.github.clojure/tools.build {:mvn/version "0.9.4"}}
+{:deps {io.github.clojure/tools.build {:mvn/version "0.9.4"}
+        ;; For testing
+        lambdaisland/kaocha {:mvn/version "1.85.1342"}
+        lambdaisland/kaocha-junit-xml {:mvn/version "1.17.101"}}
  :paths ["src"]
  
  :aliases
@@ -7,7 +10,7 @@
    :exec-args {:jar "target/monkey-build.jar"}}
 
   :install
-  {:exec-fn monkey.build/install
+  {:exec-fn monkey.build/jar+install
    :exec-args {:jar "target/monkey-build.jar"
                :version "0.1.0-SNAPSHOT"
                :lib "monkey/build"}}}}

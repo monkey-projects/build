@@ -31,3 +31,7 @@
     (println "Installing" jar "to local mvn repo")
     (b/install (assoc opts :jar-file jar))
     (println "Done.")))
+
+(defn jar+install [args]
+  (jar args)
+  (install args))
