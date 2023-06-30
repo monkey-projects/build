@@ -9,6 +9,9 @@ is structured, which libs you use, etc...
 
 ## Usage
 
+[![Clojars Project](https://img.shields.io/clojars/v/com.monkeyprojects/build.svg)](https://clojars.org/com.monkeyprojects/build)
+[![CircleCI](https://circleci.com/gh/monkey-projects/build.svg?style=svg)](https://app.circleci.com/pipelines/github/monkey-projects/build)
+
 Include the library in your `deps.edn` file, and then you can call it as a function,
 using the `-X` parameter.  For example, to add an alias to run all unit tests using
 Kaocha, add this:
@@ -26,7 +29,7 @@ clojure -X:test
 
 ## Available Commands
 
-These commands are available:
+These commands are available to use in `exec-fn`:
 
 - `monkey.test/all`: run all unit tests
 - `monkey.test/watch`: run unit tests continuously and watch for changes
@@ -36,6 +39,10 @@ These commands are available:
 - `monkey.build/jar+install`: combines `jar` and `install`
 - `monkey.build/deploy`: deploys to [Clojars](https://clojars.org)
 
+Since this is just Clojure code, you are of course completely free to call
+these functions from your own build code.  All they require is a single parameter,
+containing the arguments passed in (see below).
+
 ### Parameters
 
 In order to build a jar, or deploy, some extra `exec-args` are needed:
@@ -43,4 +50,10 @@ In order to build a jar, or deploy, some extra `exec-args` are needed:
 - `:jar`: the path to the jar file
 - `:version`: the version to include in the `pom.xml`
 - `:lib`: the name to deploy the library as (in case of deployment).
+- `:scm` (optional): add additional SCM info to the pom file.
 
+You can also customize the `junit.xml` output file by adding an `:output` parameter.
+The `test` functions essentially just call the [Kaocha](https://github.com/lambdaisland/kaocha)
+code, so if you want more customization, either specify it in the `tests.edn` file, or
+call the functions directly from your own build code.  As I said, this is an opinionated
+lib, mostly created for my own purposes.
