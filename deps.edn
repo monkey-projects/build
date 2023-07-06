@@ -7,7 +7,13 @@
  :paths ["src"]
  
  :aliases
- {:jar
+ {:test
+  {:exec-fn monkey.test/all}
+  
+  :junit
+  {:exec-fn monkey.test/junit}
+    
+  :jar
   {:exec-fn monkey.build/jar
    :exec-args {:jar "target/monkey-build.jar"
                :version "0.1.0-SNAPSHOT"

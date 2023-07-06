@@ -9,6 +9,29 @@ executors:
           password: $DOCKER_PASS
         
 jobs:
+  test:
+    executor: clj
+    steps:
+      - checkout
+      # Download and cache dependencies
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "deps.edn" }}
+            # fallback to using the latest cache if no exact match is found
+            - v1-dependencies-
+      - run:
+          name: Dependencies
+          command: clojure -X:deps prep
+      - save_cache:
+          paths:
+            - ~/.m2
+          key: v1-dependencies-{{ checksum "deps.edn" }}
+      - run:
+          name: Run unit tests
+          command: clojure -X:junit
+      - store_test_results:
+          path: junit.xml
+          
   deploy:
     executor: clj
     steps:
@@ -37,5 +60,8 @@ workflows:
   version: 2
   full-build:
     jobs:
+      - test
       - deploy:
           context: clojars
+          requires:
+            - test
