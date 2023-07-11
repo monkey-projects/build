@@ -1,6 +1,7 @@
 (ns monkey.test
   "For running unit tests using Kaocha"
   (:require [kaocha
+             [config :as kc]
              [result :as kr]
              [repl :as k]
              [watch :as w]]))
@@ -24,8 +25,9 @@
 (defn watch
   "Watches unit tests, for TDD"
   [_]
-  (to-exit
-   (w/run (k/config))))
+  (-> (w/run (k/config))
+      (first)
+      (deref)))
 
 (defn junit
   "Runs unit tests once, outputs to junit file"

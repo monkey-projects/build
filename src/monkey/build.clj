@@ -6,13 +6,16 @@
 (def target "target")
 (def class-dir (str target "/classes"))
 
+(defn- copy-sources [basis]
+  (println "Copying sources from:" (:paths basis))
+  (b/copy-dir {:src-dirs (:paths basis)
+               :target-dir class-dir}))
+
 (defn jar
   "Builds a JAR file"
   [{:keys [jar main]}]
   (let [basis (b/create-basis)]
-    (println "Copying sources from:" (:paths basis))
-    (b/copy-dir {:src-dirs (:paths basis)
-                 :target-dir class-dir})
+    (copy-sources basis)
     (println "Building a jar to" jar)
     (b/jar {:class-dir class-dir
             :jar-file jar
@@ -62,3 +65,20 @@
   (dd/deploy (merge {:installer :remote
                      :artifact jar}
                     opts)))
+
+(defn uberjar
+  "Creates an uberjar"
+  [{:keys [jar main]}]
+  (let [basis (b/create-basis)
+        opts {:uber-file jar
+              :basis basis
+              :class-dir class-dir
+              :main (symbol main)}]
+    (copy-sources basis)
+    (println "Compiling...")
+    (b/compile-clj {:basis basis
+                    :src-dirs (:paths basis)
+                    :class-dir class-dir})
+    (println "Creating uberjar" jar)
+    (b/uber opts)
+    (println "Done.")))

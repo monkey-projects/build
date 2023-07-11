@@ -9,6 +9,9 @@
  :aliases
  {:test
   {:exec-fn monkey.test/all}
+
+  :watch
+  {:exec-fn monkey.test/watch}
   
   :junit
   {:exec-fn monkey.test/junit}
