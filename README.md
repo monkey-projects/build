@@ -34,9 +34,11 @@ These commands are available to use in `exec-fn`:
 - `monkey.test/all`: run all unit tests
 - `monkey.test/watch`: run unit tests continuously and watch for changes
 - `monkey.test/junit`: run all unit tests and output to `junit.xml`
+- `monkey.test/coverage`: runs unit tests with [cloverage](https://github.com/cloverage/cloverage)
 - `monkey.build/jar`: build jar file
 - `monkey.build/install`: install the jar locally
 - `monkey.build/jar+install`: combines `jar` and `install`
+- `monkey.build/uberjar`: creates an uberjar file
 - `monkey.build/deploy`: deploys to [Clojars](https://clojars.org)
 
 Since this is just Clojure code, you are of course completely free to call
@@ -57,3 +59,21 @@ The `test` functions essentially just call the [Kaocha](https://github.com/lambd
 code, so if you want more customization, either specify it in the `tests.edn` file, or
 call the functions directly from your own build code.  As I said, this is an opinionated
 lib, mostly created for my own purposes.
+
+### Coverage
+
+For coverage calculation the default args from Cloverage are being applied, with the
+exception of `junit?`, which is enabled by default.  You can override them by specifying
+them in the `exec-args` map.
+
+Apart from that, there is *one required parameter*, the `ns-regex` vector.  It should be
+a list of strings that contain all the namespaces that should be instrumented.  Example
+`deps.edn` fragment:
+
+```clojure
+{...
+ :aliases
+ {:coverage
+  {:exec-fn monkey.test/coverage
+   :exec-args {:ns-regex ["my.lib.ns.*"]}}}}
+```

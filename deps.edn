@@ -3,7 +3,9 @@
         lambdaisland/kaocha {:mvn/version "1.85.1342"}
         lambdaisland/kaocha-junit-xml {:mvn/version "1.17.101"}
         ;; For deploying
-        slipset/deps-deploy {:mvn/version "0.2.1"}}
+        slipset/deps-deploy {:mvn/version "0.2.1"}
+        ;; For coverage
+        cloverage/cloverage {:mvn/version "1.2.4"}}
  :paths ["src"]
  
  :aliases
