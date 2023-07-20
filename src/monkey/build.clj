@@ -73,12 +73,13 @@
         opts {:uber-file jar
               :basis basis
               :class-dir class-dir
-              :main (symbol main)}]
+              :main (when main (symbol main))}]
     (copy-sources basis)
     (println "Compiling...")
     (b/compile-clj {:basis basis
                     :src-dirs (:paths basis)
-                    :class-dir class-dir})
+                    :class-dir class-dir
+                    :compile-opts {:direct-linking true}})
     (println "Creating uberjar" jar)
     (b/uber opts)
     (println "Done.")))
