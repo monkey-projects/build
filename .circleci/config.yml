@@ -49,9 +49,19 @@ jobs:
           paths:
             - ~/.m2
           key: v1-dependencies-{{ checksum "deps.edn" }}
-      - run:
-          name: Build Jar
-          command: clojure -X:build/slf4j:jar
+      - when:
+          condition: <<pipeline.git.tag>>
+          steps:
+            - run:
+                name: Build Jar
+                # Create the jar with the tag as version
+                command: clojure -X:build/slf4j:jar :version '"<<pipeline.git.tag>>"'
+      - unless:
+          condition: <<pipeline.git.tag>>
+          steps:
+            - run:
+                name: Build Jar
+                command: clojure -X:build/slf4j:jar
       - run:
           name: Deploy to Clojars
           command: clojure -X:build/slf4j:jar:deploy
