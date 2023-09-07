@@ -8,7 +8,9 @@
         slipset/deps-deploy {:mvn/version "0.2.1"
                              :exclusions [org.slf4j/slf4j-nop]}
         ;; For coverage
-        cloverage/cloverage {:mvn/version "1.2.4"}}
+        cloverage/cloverage {:mvn/version "1.2.4"}
+        ;; For linting
+        clj-kondo/clj-kondo {:mvn/version "2023.09.07"}}
  :paths ["src"]
  
  :aliases
@@ -34,6 +36,9 @@
   :deploy
   {:exec-fn monkey.build/deploy}
 
+  :lint
+  {:exec-fn monkey.test/lint}
+  
   ;; Alias that is included when deploying this lib, to avoid slf4j warning about
   ;; missing implementation.
   :build/slf4j

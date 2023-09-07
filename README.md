@@ -7,6 +7,8 @@ I need, I found myself copy/pasting the same code over and over.  So I decided t
 create this opinionated lib.  It does some assumptions regarding the way the code
 is structured, which libs you use, etc...
 
+Consider it a "batteries included" library for Clojure CLI.
+
 ## Usage
 
 [![Clojars Project](https://img.shields.io/clojars/v/com.monkeyprojects/build.svg)](https://clojars.org/com.monkeyprojects/build)
@@ -35,6 +37,7 @@ These commands are available to use in `exec-fn`:
 - `monkey.test/watch`: run unit tests continuously and watch for changes
 - `monkey.test/junit`: run all unit tests and output to `junit.xml`
 - `monkey.test/coverage`: runs unit tests with [cloverage](https://github.com/cloverage/cloverage)
+- `monkey.test/lint`: runs the [cli-kondo](https://github.com/clj-kondo/clj-kondo) linter on the `src` dirs (but you can override this).
 - `monkey.build/jar`: build jar file
 - `monkey.build/install`: install the jar locally
 - `monkey.build/jar+install`: combines `jar` and `install`
@@ -77,3 +80,24 @@ a list of strings that contain all the namespaces that should be instrumented.  
   {:exec-fn monkey.test/coverage
    :exec-args {:ns-regex ["my.lib.ns.*"]}}}}
 ```
+
+### Linting
+
+In order to to static code analysis, you can run the `lint` command.  By default it
+analyzes the `src` directory, but you can override this by specifying an argument:
+
+```clojure
+{...
+ :aliases
+ {:lint
+  {:exec-fn monkey.test/lint
+   :exec-args {:dirs ["src" "test"]}}}}
+```
+Or, on the command line:
+```bash
+clj -X:lint :dirs '["src" "test"]'
+```
+
+## Copyright
+
+Copyright (c) 2023 by Monkey Projects BV.
