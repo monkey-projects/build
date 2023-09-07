@@ -21,14 +21,14 @@ jobs:
             - v1-dependencies-
       - run:
           name: Dependencies
-          command: clojure -X:deps prep
+          command: clojure -X:build/slf4j:deps prep
       - save_cache:
           paths:
             - ~/.m2
           key: v1-dependencies-{{ checksum "deps.edn" }}
       - run:
           name: Run unit tests
-          command: clojure -X:junit
+          command: clojure -X:build/slf4j:junit
       - store_test_results:
           path: junit.xml
           
@@ -44,17 +44,17 @@ jobs:
             - v1-dependencies-
       - run:
           name: Dependencies
-          command: clojure -X:deps prep
+          command: clojure -X:build/slf4j:deps prep
       - save_cache:
           paths:
             - ~/.m2
           key: v1-dependencies-{{ checksum "deps.edn" }}
       - run:
           name: Build Jar
-          command: clojure -X:jar
+          command: clojure -X:build/slf4j:jar
       - run:
           name: Deploy to Clojars
-          command: clojure -X:jar:deploy
+          command: clojure -X:build/slf4j:jar:deploy
           
 workflows:
   version: 2
