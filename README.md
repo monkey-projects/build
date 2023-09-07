@@ -63,6 +63,20 @@ code, so if you want more customization, either specify it in the `tests.edn` fi
 call the functions directly from your own build code.  As I said, this is an opinionated
 lib, mostly created for my own purposes.
 
+### Versioning
+
+Sometimes it's easier to get the version from an environment variable, or you have
+some custom calculation system.  For this, Monkey Build also supports two additional
+arguments, instead of `:version`:
+
+ - `:version-env`: reads the version string directly from an environment variable
+ - `:version-fn`: resolves the fully qualified function symbol, and invokes it without arguments
+
+Although, in most cases it's easiest to just pass the version argument on the command line:
+```bash
+clj -X:jar:install :version '"1.0'"
+```
+
 ### Coverage
 
 For coverage calculation the default args from Cloverage are being applied, with the

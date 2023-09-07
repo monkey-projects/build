@@ -1,6 +1,6 @@
 (ns monkey.test.test-test
   (:require [clojure.java.io :as io]
-            [clojure.test :refer :all]
+            [clojure.test :refer [deftest testing is]]
             [kaocha
              [config :as kc]
              [result :as kr]]
