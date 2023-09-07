@@ -35,8 +35,10 @@
 (def determine-version
   (some-fn :version (comp read-env :version-env) (comp maybe-invoke :version-fn)))
 
+(def ^:private next-snapshot "0.2-SNAPSHOT")
+
 (defn env-or-default []
-  (or (System/getenv "VERSION") "0.1.0-SNAPSHOT"))
+  (or (System/getenv "VERSION") next-snapshot))
 
 (defn install
   "Installs JAR locally"
