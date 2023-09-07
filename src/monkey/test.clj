@@ -1,8 +1,8 @@
 (ns monkey.test
   "For running unit tests using Kaocha"
-  (:require [cloverage.coverage :as cc]
+  (:require [clj-kondo.core :as clj-kondo]
+            [cloverage.coverage :as cc]
             [kaocha
-             [config :as kc]
              [result :as kr]
              [repl :as k]
              [watch :as w]]))
@@ -76,3 +76,9 @@
       (parse-cloverage-args)
       (vector)
       (cc/run-main {})))
+
+(defn lint
+  "Runs the clj-kondo linter on the src dir"
+  [{:keys [dirs] :or {dirs ["src"]}}]
+  (-> (clj-kondo/run! {:lint dirs})
+      clj-kondo/print!))

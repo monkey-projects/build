@@ -22,10 +22,27 @@
             :main main})
     (println "Done.")))
 
+(defn- read-env [v]
+  (some-> v
+          (System/getenv)))
+
+(defn- maybe-invoke [s]
+  (when-let [v (some-> s (find-var))]
+    (v)))
+
+;; Determines the value of the version from the args.  This checks the
+;; `version`, `version-env` and `version-fn` params.
+(def determine-version
+  (some-fn :version (comp read-env :version-env) (comp maybe-invoke :version-fn)))
+
+(defn env-or-default []
+  (or (System/getenv "VERSION") "0.1.0-SNAPSHOT"))
+
 (defn install
   "Installs JAR locally"
-  [{:keys [jar version lib]}]
+  [{:keys [jar lib] :as args}]
   (let [basis (b/create-basis)
+        version (determine-version args)
         opts {:basis basis
               :class-dir class-dir
               :version version
@@ -42,10 +59,10 @@
 
 (defn pom
   "Generates pom.xml file, with the given version"
-  [{:keys [version lib scm]}]
+  [{:keys [lib scm] :as args}]
   (let [basis (b/create-basis)
         opts {:basis basis
-              :version version
+              :version (determine-version args)
               :lib (symbol lib)
               :target target
               :scm scm}
