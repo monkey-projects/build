@@ -38,6 +38,7 @@ These commands are available to use in `exec-fn`:
 - `monkey.test/junit`: run all unit tests and output to `junit.xml`
 - `monkey.test/coverage`: runs unit tests with [cloverage](https://github.com/cloverage/cloverage)
 - `monkey.test/lint`: runs the [cli-kondo](https://github.com/clj-kondo/clj-kondo) linter on the `src` dirs (but you can override this).
+- `monkey.build/clean`: deletes the `target/classes` dir
 - `monkey.build/jar`: build jar file
 - `monkey.build/install`: install the jar locally
 - `monkey.build/jar+install`: combines `jar` and `install`
@@ -47,6 +48,9 @@ These commands are available to use in `exec-fn`:
 Since this is just Clojure code, you are of course completely free to call
 these functions from your own build code.  All they require is a single parameter,
 containing the arguments passed in (see below).
+
+When building a jar or uberjar, the `clean` function is invoked to ensure no
+unnecessary or stale class files are added to the jar file.
 
 ### Parameters
 

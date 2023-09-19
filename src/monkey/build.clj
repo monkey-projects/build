@@ -11,10 +11,17 @@
   (b/copy-dir {:src-dirs (:paths basis)
                :target-dir class-dir}))
 
+(defn clean
+  "Cleans target class directory"
+  []
+  (println "Cleaning" class-dir)
+  (b/delete {:path class-dir}))
+
 (defn jar
   "Builds a JAR file"
   [{:keys [jar main]}]
   (let [basis (b/create-basis)]
+    (clean)
     (copy-sources basis)
     (println "Building a jar to" jar)
     (b/jar {:class-dir class-dir
@@ -93,6 +100,7 @@
               :basis basis
               :class-dir class-dir
               :main (when main (symbol main))}]
+    (clean)
     (copy-sources basis)
     (println "Compiling...")
     (b/compile-clj {:basis basis
