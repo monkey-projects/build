@@ -24,9 +24,9 @@
    (k/run-all)))
 
 (defn watch
-  "Watches unit tests, for TDD"
-  [_]
-  (-> (w/run (k/config))
+  "Watches unit tests, for TDD.  Any arguments are passed on to Kaocha config."
+  [args]
+  (-> (w/run (k/config args))
       (first)
       (deref)))
 
