@@ -81,6 +81,24 @@ Although, in most cases it's easiest to just pass the version argument on the co
 clj -X:jar:install :version '"1.0'"
 ```
 
+### Testing
+
+The test commands use [Kaocha](https://github.com/lambdaisland/kaocha), so in order to
+do some additional configuration, you can create a `tests.edn` file in the project root.
+Sometimes, however, you want some deviating configuration depending on the situation.  For
+example, when doing TDD, you'll want to `watch` your code, and in that case you may want
+to skip any slow tests.  In that case, you can pass in extra configuration in the `exec-args`,
+like so:
+
+```clojure
+{:aliases
+ {:watch
+  {:exec-fn monkey.test/watch
+   :exec-args {:kaocha.filter/skip-meta [:slow]}}}}
+```
+When watching, the `exec-args` are passed directly to Kaocha, so all config options that
+Kaocha supports can be specified here.
+
 ### Coverage
 
 For coverage calculation the default args from Cloverage are being applied, with the
