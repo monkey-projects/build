@@ -92,6 +92,10 @@
                      :artifact jar}
                     opts)))
 
+(defn jar+deploy [args]
+  (jar args)
+  (deploy args))
+
 (defn uberjar
   "Creates an uberjar"
   [{:keys [jar main]}]
