@@ -1,3 +1,3 @@
 (require '[monkey.ci.plugin.clj :as p])
 
-(p/deps-library)
+(p/deps-library {:publish-alias ":jar:deploy"})
