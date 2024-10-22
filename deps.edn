@@ -1,16 +1,16 @@
-{:deps {org.slf4j/slf4j-api {:mvn/version "2.0.7"}
-        io.github.clojure/tools.build {:mvn/version "0.9.4"
+{:deps {org.slf4j/slf4j-api {:mvn/version "2.0.16"}
+        io.github.clojure/tools.build {:mvn/version "0.10.5"
                                        :exclusions [org.slf4j/slf4j-nop]}
         ;; For testing
-        lambdaisland/kaocha {:mvn/version "1.85.1342"}
+        lambdaisland/kaocha {:mvn/version "1.91.1392"}
         lambdaisland/kaocha-junit-xml {:mvn/version "1.17.101"}
         ;; For deploying
-        slipset/deps-deploy {:mvn/version "0.2.1"
+        slipset/deps-deploy {:mvn/version "0.2.2"
                              :exclusions [org.slf4j/slf4j-nop]}
         ;; For coverage
         cloverage/cloverage {:mvn/version "1.2.4"}
         ;; For linting
-        clj-kondo/clj-kondo {:mvn/version "2023.09.07"}}
+        clj-kondo/clj-kondo {:mvn/version "2024.09.27"}}
  :paths ["src"]
  
  :aliases
@@ -42,4 +42,4 @@
   ;; Alias that is included when deploying this lib, to avoid slf4j warning about
   ;; missing implementation.
   :build/slf4j
-  {:extra-deps {org.slf4j/slf4j-nop {:mvn/version "2.0.7"}}}}}
+  {:extra-deps {org.slf4j/slf4j-nop {:mvn/version "2.0.16"}}}}}
