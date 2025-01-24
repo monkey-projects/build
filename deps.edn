@@ -1,5 +1,5 @@
 {:deps {org.slf4j/slf4j-api {:mvn/version "2.0.16"}
-        io.github.clojure/tools.build {:mvn/version "0.10.5"
+        io.github.clojure/tools.build {:mvn/version "0.10.6"
                                        :exclusions [org.slf4j/slf4j-nop]}
         ;; For testing
         lambdaisland/kaocha {:mvn/version "1.91.1392"}
@@ -10,7 +10,7 @@
         ;; For coverage
         cloverage/cloverage {:mvn/version "1.2.4"}
         ;; For linting
-        clj-kondo/clj-kondo {:mvn/version "2024.09.27"}}
+        clj-kondo/clj-kondo {:mvn/version "2025.01.16"}}
  :paths ["src"]
  
  :aliases

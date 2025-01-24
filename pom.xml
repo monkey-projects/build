@@ -10,27 +10,7 @@
     <dependency>
       <groupId>org.clojure</groupId>
       <artifactId>clojure</artifactId>
-      <version>1.11.1</version>
-    </dependency>
-    <dependency>
-      <groupId>lambdaisland</groupId>
-      <artifactId>kaocha</artifactId>
-      <version>1.85.1342</version>
-    </dependency>
-    <dependency>
-      <groupId>lambdaisland</groupId>
-      <artifactId>kaocha-junit-xml</artifactId>
-      <version>1.17.101</version>
-    </dependency>
-    <dependency>
-      <groupId>slipset</groupId>
-      <artifactId>deps-deploy</artifactId>
-      <version>0.2.1</version>
-    </dependency>
-    <dependency>
-      <groupId>io.github.clojure</groupId>
-      <artifactId>tools.build</artifactId>
-      <version>0.9.4</version>
+      <version>1.12.0</version>
     </dependency>
   </dependencies>
   <repositories>
