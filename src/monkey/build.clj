@@ -6,29 +6,6 @@
 (def target "target")
 (def class-dir (str target "/classes"))
 
-(defn- copy-sources [basis]
-  (println "Copying sources from:" (:paths basis))
-  (b/copy-dir {:src-dirs (:paths basis)
-               :target-dir class-dir}))
-
-(defn clean
-  "Cleans target class directory"
-  []
-  (println "Cleaning" class-dir)
-  (b/delete {:path class-dir}))
-
-(defn jar
-  "Builds a JAR file"
-  [{:keys [jar main]}]
-  (let [basis (b/create-basis)]
-    (clean)
-    (copy-sources basis)
-    (println "Building a jar to" jar)
-    (b/jar {:class-dir class-dir
-            :jar-file jar
-            :main main})
-    (println "Done.")))
-
 (defn- read-env [v]
   (some-> v
           (System/getenv)))
@@ -42,10 +19,48 @@
 (def determine-version
   (some-fn :version (comp read-env :version-env) (comp maybe-invoke :version-fn)))
 
-(def ^:private next-snapshot "0.2-SNAPSHOT")
+(def ^:private next-snapshot "0.2.1-SNAPSHOT")
 
 (defn env-or-default []
   (or (System/getenv "VERSION") next-snapshot))
+
+(defn- copy-sources [basis]
+  (println "Copying sources from:" (:paths basis))
+  (b/copy-dir {:src-dirs (:paths basis)
+               :target-dir class-dir}))
+
+(defn clean
+  "Cleans target class directory"
+  []
+  (println "Cleaning" class-dir)
+  (b/delete {:path class-dir}))
+
+(defn pom
+  "Generates pom.xml file, with the given version"
+  [{:keys [lib scm] :as args}]
+  (let [basis (b/create-basis)
+        opts {:basis basis
+              :version (determine-version args)
+              :lib (symbol lib)
+              :target target
+              :scm scm}
+        pom "pom.xml"]
+    (println "Writing" pom)
+    (b/write-pom opts)
+    (b/copy-file {:src (str target "/" pom)
+                  :target pom})))
+
+(defn jar
+  "Builds a JAR file"
+  [{:keys [jar main lib] :as args}]
+  (let [basis (b/create-basis)]
+    (clean)
+    (copy-sources basis)
+    (println "Building a jar to" jar)
+    (b/jar {:class-dir class-dir
+            :jar-file jar
+            :main main})
+    (println "Done.")))
 
 (defn install
   "Installs JAR locally"
@@ -65,21 +80,6 @@
 (defn jar+install [args]
   (jar args)
   (install args))
-
-(defn pom
-  "Generates pom.xml file, with the given version"
-  [{:keys [lib scm] :as args}]
-  (let [basis (b/create-basis)
-        opts {:basis basis
-              :version (determine-version args)
-              :lib (symbol lib)
-              :target target
-              :scm scm}
-        pom "pom.xml"]
-    (println "Writing" pom)
-    (b/write-pom opts)
-    (b/copy-file {:src (str target "/" pom)
-                  :target pom})))
 
 (defn deploy
   "Deploys the library to an external repo. If no repository is given,
