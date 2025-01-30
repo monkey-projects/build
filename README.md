@@ -12,7 +12,6 @@ Consider it a "batteries included" library for Clojure CLI.
 ## Usage
 
 [![Clojars Project](https://img.shields.io/clojars/v/com.monkeyprojects/build.svg)](https://clojars.org/com.monkeyprojects/build)
-[![CircleCI](https://circleci.com/gh/monkey-projects/build.svg?style=svg)](https://app.circleci.com/pipelines/github/monkey-projects/build)
 
 Include the library in your `deps.edn` file, and then you can call it as a function,
 using the `-X` parameter.  For example, to add an alias to run all unit tests using
@@ -21,7 +20,7 @@ Kaocha, add this:
 ```clojure
  :aliases
  {:test
-  {:extra-deps {com.monkeyprojects/build {:mvn/version "0.1.0-SNAPSHOT"}}
+  {:extra-deps {com.monkeyprojects/build {:mvn/version "0.3.0-SNAPSHOT"}}
    :exec-fn monkey.test/all}}
 ```
 To run the tests, just execute:
@@ -60,12 +59,16 @@ In order to build a jar, or deploy, some extra `exec-args` are needed:
 - `:version`: the version to include in the `pom.xml`
 - `:lib`: the name to deploy the library as (in case of deployment).
 - `:scm` (optional): add additional SCM info to the pom file.
+- `:pom-data` (optional): additional information to add to the pom (like licenses).
 
 You can also customize the `junit.xml` output file by adding an `:output` parameter.
 The `test` functions essentially just call the [Kaocha](https://github.com/lambdaisland/kaocha)
 code, so if you want more customization, either specify it in the `tests.edn` file, or
 call the functions directly from your own build code.  As I said, this is an opinionated
 lib, mostly created for my own purposes.
+
+**Note** that if a `pom.xml` file exists, the `:pom-data` parameter will be ignored, and
+information from the pre-existing pom file will be used instead.
 
 ### Versioning
 
@@ -134,6 +137,8 @@ Or, on the command line:
 clj -X:lint :dirs '["src" "test"]'
 ```
 
-## Copyright
+## License
 
-Copyright (c) 2023 by Monkey Projects BV.
+[MIT License](LICENSE)
+
+Copyright (c) 2023-2025 by [Monkey Projects BV](https://www.monkey-projects.be).

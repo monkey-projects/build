@@ -28,7 +28,11 @@
    :exec-args {:jar "target/monkey-build.jar"
                :version-fn monkey.build/env-or-default
                :lib "com.monkeyprojects/build"
-               :scm {:url "https://github.com/monkey-projects/build"}}}
+               :scm {:url "https://github.com/monkey-projects/build"}
+               :pom-data [[:licenses
+                           [:license
+                            [:name "MIT License"]
+                            [:url "https://mit-license.org"]]]]}}
 
   :install
   {:exec-fn monkey.build/jar+install}

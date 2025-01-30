@@ -19,7 +19,7 @@
 (def determine-version
   (some-fn :version (comp read-env :version-env) (comp maybe-invoke :version-fn)))
 
-(def ^:private next-snapshot "0.2.1-SNAPSHOT")
+(def ^:private next-snapshot "0.3.0-SNAPSHOT")
 
 (defn env-or-default []
   (or (System/getenv "VERSION") next-snapshot))
@@ -37,13 +37,14 @@
 
 (defn pom
   "Generates pom.xml file, with the given version"
-  [{:keys [lib scm] :as args}]
+  [args]
   (let [basis (b/create-basis)
-        opts {:basis basis
-              :version (determine-version args)
-              :lib (symbol lib)
-              :target target
-              :scm scm}
+        opts (-> args
+                 (select-keys [:lib :scm :pom-data])
+                 (update :lib symbol)
+                 (assoc :basis basis
+                        :version (determine-version args)
+                        :target target))
         pom "pom.xml"]
     (println "Writing" pom)
     (b/write-pom opts)
