@@ -26,7 +26,7 @@
   :jar
   {:exec-fn monkey.build/jar
    :exec-args {:jar "target/monkey-build.jar"
-               :version-fn monkey.build/env-or-default
+               :version [[:env "LIB_VERSION"] "0.3.1-SNAPSHOT"]
                :lib "com.monkeyprojects/build"
                :scm {:url "https://github.com/monkey-projects/build"}
                :pom-data [[:licenses

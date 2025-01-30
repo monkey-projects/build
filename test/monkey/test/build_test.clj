@@ -7,8 +7,15 @@
 (def test-version (constantly "test-version"))
 
 (deftest determine-version
-  (testing "returns `version` param"
-    (is (= "test-version" (sut/determine-version {:version "test-version"}))))
+  (testing "`version`"
+    (testing "returns string param"
+      (is (= "test-version" (sut/determine-version {:version "test-version"}))))
+
+    (testing "returns env"
+      (is (string? (sut/determine-version {:version [[:env "PATH"]]}))))
+
+    (testing "returns param if env does not exist"
+      (is (= "test-version" (sut/determine-version {:version [[:env "NONEXISTING"] "test-version"]})))))
 
   (testing "returns value from env"
     (is (string? (sut/determine-version {:version-env "PATH"}))))

@@ -14,15 +14,25 @@
   (when-let [v (some-> s (find-var))]
     (v)))
 
+(defn- get-version
+  "Returns the version as configured.  If a string is given, it returns its
+   value.  If a vector is given, it processes them in order until one returns
+   a non-nil value."
+  [conf]
+  (letfn [(get-value [x]
+            (cond
+              (string? x) x
+              (and (vector? x) (= :env (first x))) (read-env (second x))))]
+    (cond
+      (string? conf) conf
+      (sequential? conf) (some get-value conf))))
+
 ;; Determines the value of the version from the args.  This checks the
 ;; `version`, `version-env` and `version-fn` params.
 (def determine-version
-  (some-fn :version (comp read-env :version-env) (comp maybe-invoke :version-fn)))
-
-(def ^:private next-snapshot "0.3.0-SNAPSHOT")
-
-(defn env-or-default []
-  (or (System/getenv "VERSION") next-snapshot))
+  (some-fn (comp get-version :version)
+           (comp read-env :version-env)
+           (comp maybe-invoke :version-fn)))
 
 (defn- copy-sources [basis]
   (println "Copying sources from:" (:paths basis))

@@ -56,7 +56,7 @@ unnecessary or stale class files are added to the jar file.
 In order to build a jar, or deploy, some extra `exec-args` are needed:
 
 - `:jar`: the path to the jar file
-- `:version`: the version to include in the `pom.xml`
+- `:version`: the version to include in the `pom.xml`, see below.
 - `:lib`: the name to deploy the library as (in case of deployment).
 - `:scm` (optional): add additional SCM info to the pom file.
 - `:pom-data` (optional): additional information to add to the pom (like licenses).
@@ -72,12 +72,26 @@ information from the pre-existing pom file will be used instead.
 
 ### Versioning
 
-Sometimes it's easier to get the version from an environment variable, or you have
-some custom calculation system.  For this, Monkey Build also supports two additional
-arguments, instead of `:version`:
+Determining the version of the library or app you're building is not always straightforward.
+Sometimes you want to get the version from an environment variable, or you have
+some custom calculation system.  For this, Monkey Build also supports the following
+possibilities:
 
+ - `version`: either a constant value, or a list to evaluate
  - `:version-env`: reads the version string directly from an environment variable
  - `:version-fn`: resolves the fully qualified function symbol, and invokes it without arguments
+
+The evaluation list that `version` takes can be used to read an environment variable,
+or fall back on a constant string if the env var is empty.  Reading an environment
+variable in this situation is done by using a tuple where the first item is `:env` and
+the second the name of the variable, for example:
+
+```clojure
+:version [[:env "VERSION"] "0.1.0-SNAPSHOT"]
+```
+This will either return the value of the `VERSION` env var, or `0.1.0-SNAPSHOT`. This can
+be useful when you want to build from a CI/CD systen that populates the `VERSION`
+variable from the git tag if it's a release, or leaves it empty if it's a snapshot build.
 
 Although, in most cases it's easiest to just pass the version argument on the command line:
 ```bash
