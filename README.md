@@ -77,7 +77,7 @@ Sometimes you want to get the version from an environment variable, or you have
 some custom calculation system.  For this, Monkey Build also supports the following
 possibilities:
 
- - `version`: either a constant value, or a list to evaluate
+ - `:version`: either a constant value, or a list to evaluate
  - `:version-env`: reads the version string directly from an environment variable
  - `:version-fn`: resolves the fully qualified function symbol, and invokes it without arguments
 
