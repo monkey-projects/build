@@ -61,12 +61,24 @@
     (b/copy-file {:src (str target "/" pom)
                   :target pom})))
 
+(defn compile-src
+  ([]
+   (compile-src (b/create-basis)))
+  ([basis]
+   (println "Compiling...")
+   (b/compile-clj {:basis basis
+                   :src-dirs (:paths basis)
+                   :class-dir class-dir
+                   :compile-opts {:direct-linking true}})))
+
 (defn jar
   "Builds a JAR file"
-  [{:keys [jar main lib] :as args}]
+  [{:keys [jar main lib compile?] :as args}]
   (let [basis (b/create-basis)]
     (clean)
     (copy-sources basis)
+    (when compile?
+      (compile-src basis))
     (println "Building a jar to" jar)
     (b/jar {:class-dir class-dir
             :jar-file jar
@@ -117,11 +129,7 @@
               :main (when main (symbol main))}]
     (clean)
     (copy-sources basis)
-    (println "Compiling...")
-    (b/compile-clj {:basis basis
-                    :src-dirs (:paths basis)
-                    :class-dir class-dir
-                    :compile-opts {:direct-linking true}})
+    (compile-src basis)
     (println "Creating uberjar" jar)
     (b/uber opts)
     (println "Done.")))
